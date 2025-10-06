@@ -14,29 +14,29 @@
     }
 
     body {
-      background: linear-gradient(180deg,#0a0a1a,#020208 90%);
+      background: radial-gradient(circle at top, #020210, #000);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
       overflow: hidden;
+      position: relative;
     }
 
-    /* خلفية متحركة */
+    /* خلفية متحركة ناعمة */
     .bg {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top left, #00bcd4 0%, transparent 50%),
-                  radial-gradient(circle at bottom right, #ff0055 0%, transparent 50%);
+      background: radial-gradient(circle at 20% 30%, #00ffff30 0%, transparent 60%),
+                  radial-gradient(circle at 80% 70%, #ff005540 0%, transparent 60%);
       filter: blur(120px);
-      animation: move 8s linear infinite alternate;
-      z-index: 0;
-      opacity: 0.35;
+      animation: move 10s ease-in-out infinite alternate;
+      opacity: 0.4;
     }
     @keyframes move {
-      0% { transform: scale(1) translate(0,0); }
-      100% { transform: scale(1.2) translate(-20px,20px); }
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(-30px,20px) scale(1.1); }
     }
 
     /* شاشة الترحيب */
@@ -53,9 +53,10 @@
     }
 
     .logo {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 700;
       color: #00ffff;
+      letter-spacing: 1px;
       animation: glow 1.5s infinite alternate;
     }
 
@@ -63,12 +64,11 @@
       margin-top: 10px;
       font-size: 13px;
       color: #aaa;
-      letter-spacing: 1px;
     }
 
     @keyframes glow {
       from { text-shadow: 0 0 10px #00ffff; }
-      to { text-shadow: 0 0 30px #00ffff80; }
+      to { text-shadow: 0 0 25px #00ffff80; }
     }
 
     @keyframes hideSplash {
@@ -81,39 +81,40 @@
       z-index: 1;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
+      border-radius: 18px;
       width: 90%;
       max-width: 380px;
-      padding: 30px 20px;
+      padding: 35px 25px;
       text-align: center;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      backdrop-filter: blur(15px);
       opacity: 0;
-      transform: scale(0.9);
+      transform: translateY(20px);
       transition: opacity 1s ease, transform 1s ease;
     }
 
     .card.show {
       opacity: 1;
-      transform: scale(1);
+      transform: translateY(0);
     }
 
     h1 {
-      font-size: 22px;
+      font-size: 24px;
       margin-bottom: 10px;
-      text-shadow: 0 0 15px #00ffff40;
+      color: #00ffff;
+      text-shadow: 0 0 15px #00ffff60;
     }
 
     p {
-      font-size: 14px;
-      color: #bbb;
-      margin-bottom: 20px;
+      font-size: 15px;
+      color: #ccc;
+      margin-bottom: 25px;
     }
 
     .buttons {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .btn {
@@ -121,14 +122,13 @@
       align-items: center;
       justify-content: center;
       padding: 14px;
-      border-radius: 12px;
+      border-radius: 14px;
       color: #fff;
       font-weight: 700;
       text-decoration: none;
       font-size: 15px;
-      transition: 0.25s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
-      box-shadow: 0 0 12px rgba(255,255,255,0.05);
       position: relative;
       overflow: hidden;
     }
@@ -139,31 +139,29 @@
       top: 0; left: -50%;
       width: 200%;
       height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent);
-      transition: 0.5s;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+      transition: 0.6s;
     }
 
     .btn:hover::before { left: 100%; }
+    .btn:hover { transform: scale(1.05); }
 
     .btn-yt {
       background: linear-gradient(90deg, #ff0000, #c30000);
-    }
-    .btn-arabtel {
-      background: linear-gradient(90deg, #00bcd4, #007a9e);
+      box-shadow: 0 0 15px #ff000040;
     }
 
-    .btn:hover {
-      transform: scale(1.03);
+    .btn-yt:hover {
+      box-shadow: 0 0 25px #ff000070;
     }
 
     footer {
-      margin-top: 20px;
+      margin-top: 25px;
       font-size: 12px;
       color: #888;
       opacity: 0.8;
     }
 
-    /* تحسين للموبايل */
     @media (max-width:480px) {
       h1 { font-size: 20px; }
       .btn { font-size: 14px; padding: 12px; }
@@ -189,13 +187,6 @@
          href="https://www.mediafire.com/file/itppnuaronc2ij1/app-release+(1).apk/file" 
          target="_blank" rel="noopener noreferrer">
          🔴 تحميل رُويّان (Ruyan)
-
-      </a>
-
-      <a class="btn btn-arabtel" 
-         href="https://www.mediafire.com/file/gxhs5gte1ozmbwy/base.apk/file"
-         target="_blank" rel="noopener noreferrer">
-         💠 تحميل عربتيل
       </a>
     </div>
 
@@ -203,11 +194,10 @@
   </div>
 
   <script>
-    // بعد انتهاء شاشة الترحيب، تظهر البطاقة بسلاسة
     setTimeout(() => {
       document.getElementById('mainCard').classList.add('show');
     }, 2800);
   </script>
 
 </body>
-  </html>
+</html>
